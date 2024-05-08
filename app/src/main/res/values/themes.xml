@@ -7,7 +7,7 @@
 
     <style name="Theme.EcommerceApp" parent="Base.Theme.EcommerceApp" />
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_logo</item>
+        <item name="android:windowBackground">@drawable/carts</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>

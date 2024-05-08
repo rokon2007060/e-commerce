@@ -1,6 +1,5 @@
 package com.example.e_commerce_app;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,124 +9,103 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
-    private EditText emailTextView, passwordTextView;
-    private Button Btn;
-    private ProgressBar progressbar;
+
+    private EditText fullNameEditText, emailEditText, passwordEditText, phoneEditText, addressEditText;
+    private Button registerButton;
+    private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore firestore;
 
-
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_registration);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
         mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
-        // initialising all views through id defined above
-        emailTextView = findViewById(R.id.email);
-        passwordTextView = findViewById(R.id.passwd);
-        Btn = findViewById(R.id.btnregister);
-        progressbar = findViewById(R.id.progressbar);
+        fullNameEditText = findViewById(R.id.full_name);
+        emailEditText = findViewById(R.id.email);
+        passwordEditText = findViewById(R.id.passwd);
+        phoneEditText = findViewById(R.id.phone);
+        addressEditText = findViewById(R.id.address);
+        registerButton = findViewById(R.id.btnregister);
+        progressBar = findViewById(R.id.progressbar);
 
-        // Set on Click Listener on Registration button
-        Btn.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                registerNewUser();
+            public void onClick(View v) {
+                registerUser();
             }
         });
     }
-    private void registerNewUser()
-    {
 
-        // show the visibility of progress bar to show loading
-        progressbar.setVisibility(View.VISIBLE);
+    private void registerUser() {
+        final String fullName = fullNameEditText.getText().toString().trim();
+        final String email = emailEditText.getText().toString().trim();
+        final String password = passwordEditText.getText().toString().trim();
+        final String phone = phoneEditText.getText().toString().trim();
+        final String address = addressEditText.getText().toString().trim();
 
-        // Take the value of two edit texts in Strings
-        String email, password;
-        email = emailTextView.getText().toString();
-        password = passwordTextView.getText().toString();
-
-        // Validations for input email and password
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(),
-                            "Please enter email!!",
-                            Toast.LENGTH_LONG)
-                    .show();
-            return;
-        }
-        if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(),
-                            "Please enter password!!",
-                            Toast.LENGTH_LONG)
-                    .show();
+        if (TextUtils.isEmpty(fullName) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password)
+                || TextUtils.isEmpty(phone) || TextUtils.isEmpty(address)) {
+            Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // create new user or register new user
-        mAuth
-                .createUserWithEmailAndPassword(email, password)
+        progressBar.setVisibility(View.VISIBLE);
+
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),
-                                            "Registration successful!",
-                                            Toast.LENGTH_LONG)
-                                    .show();
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("full_name", fullName);
+                            user.put("email", email);
+                            user.put("phone", phone);
+                            user.put("address", address);
 
-                            // hide the progress bar
-                            progressbar.setVisibility(View.GONE);
-
-                            // if the user created intent to login activity
-                            Intent intent
-                                    = new Intent(RegistrationActivity.this,
-                                    MainActivity.class);
-                            startActivity(intent);
-                        }
-                        else {
-
-                            // Registration failed
-                            Toast.makeText(
-                                            getApplicationContext(),
-                                            "Registration failed!!"
-                                                    + " user already exists",
-                                            Toast.LENGTH_LONG)
-                                    .show();
-
-                            // hide the progress bar
-                            progressbar.setVisibility(View.GONE);
+                            firestore.collection("users")
+                                    .document(mAuth.getCurrentUser().getUid())
+                                    .set(user)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(getApplicationContext(), "User registered successfully", Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
+                                                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                                                finish();
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Failed to register user", Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
+                                            }
+                                        }
+                                    });
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Failed to register user", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
-
                 });
-
-
     }
 
     public void log(View view) {
-        startActivity(new Intent(this,LoginActivity.class));
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 }

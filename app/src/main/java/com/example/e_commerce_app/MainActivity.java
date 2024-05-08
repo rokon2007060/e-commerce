@@ -1,24 +1,30 @@
 package com.example.e_commerce_app;
 
-import android.os.Bundle;
+import android.content.Intent;
 
-import androidx.activity.EdgeToEdge;
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
+
 
 public class MainActivity extends AppCompatActivity {
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        mAuth = FirebaseAuth.getInstance();
+
+
+    }
+    public void logout(View view) {
+        FirebaseAuth.getInstance().signOut();
+        // Redirect user to the login screen after logout
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        finish(); // Close the current activity so that user can't go back with back button
     }
 }
