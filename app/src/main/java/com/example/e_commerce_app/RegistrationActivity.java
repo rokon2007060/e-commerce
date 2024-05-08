@@ -22,11 +22,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+
 public class RegistrationActivity extends AppCompatActivity {
     private EditText emailTextView, passwordTextView;
     private Button Btn;
     private ProgressBar progressbar;
     private FirebaseAuth mAuth;
+
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +113,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             Toast.makeText(
                                             getApplicationContext(),
                                             "Registration failed!!"
-                                                    + " Please try again later",
+                                                    + " user already exists",
                                             Toast.LENGTH_LONG)
                                     .show();
 

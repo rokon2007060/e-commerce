@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText emailTextView, passwordTextView;
+    private TextView forgetview;
     private Button Btn;
     private ProgressBar progressbar;
 
@@ -43,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         // initialising all views through id defined above
         emailTextView = findViewById(R.id.email);
         passwordTextView = findViewById(R.id.password);
+        forgetview=findViewById(R.id.txtfpsw);
         Btn = findViewById(R.id.login);
         progressbar = findViewById(R.id.progressBar);
 
@@ -120,5 +123,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void reg(View view) {
         startActivity(new Intent(this, RegistrationActivity.class));
+    }
+
+    public void fpsw(View view) {
+        startActivity(new Intent(this,ForgotPasswordActivity.class));
     }
 }

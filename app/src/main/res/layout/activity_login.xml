@@ -1,58 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Linear Layout with vertical orientation and other properties -->
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="15dp"
-    tools:context=".LoginActivity">
+    android:background="@color/white"
+    android:padding="24dp"
+    android:gravity="center">
 
-    <!-- TextView for heading -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"/>
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/login"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp"/>
 
-    <!-- Edit text for email -->
     <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:hint="Enter your Email"
-        android:inputType="textEmailAddress"/>
+        android:inputType="textEmailAddress"
+        android:backgroundTint="@color/black"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"/>
 
-    <!-- Edit text for password -->
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:hint="Enter your Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:backgroundTint="@color/black"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"/>
 
-    <!-- Button for Login with text "Login" -->
     <Button
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login" />
+        android:layout_marginBottom="16dp"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:background="@color/black"
+        android:textStyle="bold"/>
 
-    <!-- ProgressBar for Loading Time -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone" />
+        android:visibility="gone"/>
+
     <TextView
+        android:id="@+id/txtfpsw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Forgot Password?"
+        android:textColor="@color/black"
+        android:onClick="fpsw"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
         android:id="@+id/txt3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Don't have an account? Sign up"
         android:onClick="reg"
-        android:text="no_account?signup"
-         />
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
 </LinearLayout>
