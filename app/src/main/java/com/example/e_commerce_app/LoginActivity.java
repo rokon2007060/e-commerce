@@ -3,6 +3,7 @@ package com.example.e_commerce_app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,9 +19,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText emailTextView, passwordTextView;
@@ -29,7 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressbar;
 
     private FirebaseAuth mAuth;
-
+    boolean valid = true;
+   FirebaseFirestore fstore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +50,15 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
         mAuth = FirebaseAuth.getInstance();
-
+        fstore=FirebaseFirestore.getInstance();
         // initialising all views through id defined above
         emailTextView = findViewById(R.id.email);
         passwordTextView = findViewById(R.id.password);
         forgetview=findViewById(R.id.txtfpsw);
         Btn = findViewById(R.id.login);
         progressbar = findViewById(R.id.progressBar);
+        //checkField(emailTextView);
+        //checkField(passwordTextView);
 
         // Set on Click Listener on Sign-in button
         Btn.setOnClickListener(new View.OnClickListener() {
@@ -86,17 +96,22 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // signin existing user
+        // signIn existing user
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
-                            Toast.makeText(getApplicationContext(), "Login successful!!", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                // User is authenticated, proceed with your logic
+                                Toast.makeText(getApplicationContext(), "Login successful!!", Toast.LENGTH_LONG).show();
+                                checkAccessLevel(user.getUid());
+                                finish();
+                            } else {
+                                // User object is null, handle accordingly
+                                Toast.makeText(getApplicationContext(), "User object is null", Toast.LENGTH_LONG).show();
+                            }
                         }
 
                         else {
@@ -124,7 +139,41 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         if (FirebaseAuth.getInstance().getCurrentUser()!=null){
-            startActivity(new Intent(this,MainActivity.class));
+           DocumentReference df=FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+           df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+               @Override
+               public void onSuccess(DocumentSnapshot documentSnapshot) {
+                   if (documentSnapshot.getString("isAdmin")!=null){
+                       startActivity(new Intent(getApplicationContext(), AdminActivity.class));
+                   }
+                   if (documentSnapshot.getString("isUser")!=null){
+                       startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                   }
+               }
+           }).addOnFailureListener(new OnFailureListener() {
+               @Override
+               public void onFailure(@NonNull Exception e) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
+               }
+           });
         }
+    }
+    private void  checkAccessLevel(String uid){
+        DocumentReference df=fstore.collection("users").document(uid);
+        df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Log.d("Tag","onSuccess"+documentSnapshot.getData());
+                if (documentSnapshot.getString("isAdmin") != null) {
+                    startActivity(new Intent(LoginActivity.this, AdminActivity.class));
+                    finish();
+                } else if (documentSnapshot.getString("isUser") != null) {
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+                }
+            }
+        });
     }
 }
