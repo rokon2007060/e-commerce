@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,20 +92,11 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),
-                                            "Login successful!!",
-                                            Toast.LENGTH_LONG)
-                                    .show();
 
-                            // hide the progress bar
-                            progressbar.setVisibility(View.GONE);
-
-                            // if sign-in is successful
-                            // intent to home activity
-                            Intent intent
-                                    = new Intent(LoginActivity.this,
-                                    MainActivity.class);
+                            Toast.makeText(getApplicationContext(), "Login successful!!", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }
 
                         else {
@@ -127,5 +119,12 @@ public class LoginActivity extends AppCompatActivity {
 
     public void fpsw(View view) {
         startActivity(new Intent(this,ForgotPasswordActivity.class));
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        if (FirebaseAuth.getInstance().getCurrentUser()!=null){
+            startActivity(new Intent(this,MainActivity.class));
+        }
     }
 }
