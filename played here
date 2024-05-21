@@ -1,0 +1,48 @@
+[33mcommit 02f7ba368526eca10ceb9524864abba2f06e1f4f[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Mahi <ahnafraismahi@gmail.com>
+Date:   Sat May 11 01:16:46 2024 +0600
+
+    Add onStart method to LoginActivity and Implement real logout functionality
+
+[33mcommit 3c1f42dd968fce4576742d5b8e7062104a5fa1d3[m
+Author: Mahi <ahnafraismahi@gmail.com>
+Date:   Thu May 9 01:44:54 2024 +0600
+
+    profile integrity resolved
+
+[33mcommit e9d7bc20ef283038e061ccf5d22fbf9237c6e468[m
+Author: Mahi <ahnafraismahi@gmail.com>
+Date:   Thu May 9 01:25:39 2024 +0600
+
+    data fetching and showing on mainactivity
+
+[33mcommit 6bc754a6d3750b5fbbdec0caf8f3203286435eb8[m
+Author: Mahi <ahnafraismahi@gmail.com>
+Date:   Thu May 9 01:11:21 2024 +0600
+
+    firestore implementation and logout button done
+
+[33mcommit 11b2a0499c273c93bddd2e216a437463c351a580[m
+Author: Mahi <ahnafraismahi@gmail.com>
+Date:   Wed May 8 21:52:08 2024 +0600
+
+    Forgot password functionality added
+
+[33mcommit 10d5106b877718cdfb57109a4f9f1a324cda49b0[m
+Merge: c14f831 4f2ff5c
+Author: Mahi <ahnafraismahi@gmail.com>
+Date:   Sat Apr 27 11:02:39 2024 +0600
+
+    Merge remote-tracking branch 'origin/main'
+
+[33mcommit c14f831b89ac223463d72eee1920dff9f74e5511[m
+Author: Mahi <ahnafraismahi@gmail.com>
+Date:   Sat Apr 27 10:58:50 2024 +0600
+
+    user login and registraion using firebase
+
+[33mcommit 4f2ff5c912a71a99501e8fddaf8476152825e2d8[m
+Author: rokon2007060 <134358044+rokon2007060@users.noreply.github.com>
+Date:   Tue Apr 16 10:24:54 2024 +0600
+
+    Initial commit

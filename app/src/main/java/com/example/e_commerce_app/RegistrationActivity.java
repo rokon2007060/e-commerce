@@ -1,129 +1,163 @@
 package com.example.e_commerce_app;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
-    private EditText emailTextView, passwordTextView;
-    private Button Btn;
-    private ProgressBar progressbar;
+
+    private EditText fullNameEditText, emailEditText, passwordEditText, phoneEditText, addressEditText;
+    private Button registerButton;
+    private ProgressBar progressBar;
     private FirebaseAuth mAuth;
-    @SuppressLint("MissingInflatedId")
+    private FirebaseFirestore firestore;
+    boolean valid = true;
+    CheckBox isAdminBox, isUserBox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_registration);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
         mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
-        // initialising all views through id defined above
-        emailTextView = findViewById(R.id.email);
-        passwordTextView = findViewById(R.id.passwd);
-        Btn = findViewById(R.id.btnregister);
-        progressbar = findViewById(R.id.progressbar);
+        fullNameEditText = findViewById(R.id.full_name);
+        emailEditText = findViewById(R.id.email);
+        passwordEditText = findViewById(R.id.passwd);
+        phoneEditText = findViewById(R.id.phone);
+        addressEditText = findViewById(R.id.address);
+        registerButton = findViewById(R.id.btnregister);
+        progressBar = findViewById(R.id.progressbar);
+        isAdminBox = findViewById(R.id.isAdmin);
+        isUserBox = findViewById(R.id.isUser);
 
-        // Set on Click Listener on Registration button
-        Btn.setOnClickListener(new View.OnClickListener() {
+        isAdminBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v)
-            {
-                registerNewUser();
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()) {
+                    isUserBox.setChecked(false);
+                }
+            }
+        });
+
+        isUserBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()) {
+                    isAdminBox.setChecked(false);
+                }
+            }
+        });
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerUser();
             }
         });
     }
-    private void registerNewUser()
-    {
 
-        // show the visibility of progress bar to show loading
-        progressbar.setVisibility(View.VISIBLE);
+    private void registerUser() {
+        final String fullName = fullNameEditText.getText().toString().trim();
+        final String email = emailEditText.getText().toString().trim();
+        final String password = passwordEditText.getText().toString().trim();
+        final String phone = phoneEditText.getText().toString().trim();
+        final String address = addressEditText.getText().toString().trim();
 
-        // Take the value of two edit texts in Strings
-        String email, password;
-        email = emailTextView.getText().toString();
-        password = passwordTextView.getText().toString();
-
-        // Validations for input email and password
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(),
-                            "Please enter email!!",
-                            Toast.LENGTH_LONG)
-                    .show();
-            return;
-        }
-        if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(),
-                            "Please enter password!!",
-                            Toast.LENGTH_LONG)
-                    .show();
+        // Check if either of the checkboxes is checked
+        if (!isUserBox.isChecked() && !isAdminBox.isChecked()) {
+            Toast.makeText(this, "Please select user type", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // create new user or register new user
-        mAuth
-                .createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),
-                                            "Registration successful!",
-                                            Toast.LENGTH_LONG)
-                                    .show();
+        checkField(fullNameEditText);
+        checkField(emailEditText);
+        checkField(passwordEditText);
+        checkField(phoneEditText);
+        checkField(addressEditText);
 
-                            // hide the progress bar
-                            progressbar.setVisibility(View.GONE);
-
-                            // if the user created intent to login activity
-                            Intent intent
-                                    = new Intent(RegistrationActivity.this,
-                                    MainActivity.class);
-                            startActivity(intent);
+        progressBar.setVisibility(View.VISIBLE);
+        if (valid) {
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Map<String, Object> user = new HashMap<>();
+                                user.put("full_name", fullName);
+                                user.put("email", email);
+                                user.put("phone", phone);
+                                user.put("address", address);
+                                if (isAdminBox.isChecked()) {
+                                    user.put("isAdmin", "1");
+                                }
+                                if (isUserBox.isChecked()) {
+                                    user.put("isUser", "1");
+                                }
+                                firestore.collection("users")
+                                        .document(mAuth.getCurrentUser().getUid())
+                                        .set(user)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    if (isAdminBox.isChecked()) {
+                                                        progressBar.setVisibility(View.GONE);
+                                                        startActivity(new Intent(RegistrationActivity.this, AdminActivity.class));
+                                                        finish();
+                                                    }
+                                                    if (isUserBox.isChecked()) {
+                                                        progressBar.setVisibility(View.GONE);
+                                                        startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                                                        finish();
+                                                    }
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "Failed to register user", Toast.LENGTH_SHORT).show();
+                                                    progressBar.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        });
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Failed to register user", Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
+                            }
                         }
-                        else {
-
-                            // Registration failed
-                            Toast.makeText(
-                                            getApplicationContext(),
-                                            "Registration failed!!"
-                                                    + " Please try again later",
-                                            Toast.LENGTH_LONG)
-                                    .show();
-
-                            // hide the progress bar
-                            progressbar.setVisibility(View.GONE);
-                        }
-                    }
-
-                });
-
-
+                    });
+        }
     }
 
     public void log(View view) {
-        startActivity(new Intent(this,LoginActivity.class));
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+
+    public boolean checkField(EditText textField) {
+        if (textField.getText().toString().isEmpty()) {
+            textField.setError("Please insert information. This field is empty.");
+            valid = false;
+        } else {
+            valid = true;
+        }
+        return valid;
     }
 }
