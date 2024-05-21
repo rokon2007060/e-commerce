@@ -6,9 +6,19 @@
     </style>
 
     <style name="Theme.EcommerceApp" parent="Base.Theme.EcommerceApp" />
+
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/carts</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
+
+    <style name="Theme.EcommerceApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.EcommerceApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.EcommerceApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

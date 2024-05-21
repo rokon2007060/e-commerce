@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(new Intent(LoginActivity.this, AdminActivity.class));
                             finish();
                         } else if (document.getString("isUser") != null) {
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
