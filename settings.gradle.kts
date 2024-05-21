@@ -1,4 +1,6 @@
-include (":app")
+
+include(":app")
+>>>>>>> a42b7304dea15c7798084fdee7edb834c96b114f
 
 pluginManagement {
     repositories {
