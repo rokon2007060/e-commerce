@@ -1,42 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
-    android:gravity="center"
     android:padding="24dp"
     tools:context=".RegistrationActivity">
 
     <ImageView
+        android:id="@+id/logo"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@drawable/register"
-        android:layout_gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/title"
         android:layout_marginBottom="24dp"/>
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"
         android:textSize="24sp"
         android:textColor="@color/black"
-        android:layout_gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="16dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtLayoutFullName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:hint="Full Name"
         android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black">
+        app:boxStrokeColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/full_name"
@@ -50,12 +58,15 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtLayoutEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:hint="Enter your Email"
         android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black">
+        app:boxStrokeColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtLayoutFullName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
@@ -69,12 +80,15 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtLayoutPassword"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:hint="Enter your Password"
         android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black">
+        app:boxStrokeColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtLayoutEmail">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwd"
@@ -88,12 +102,15 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtLayoutPhone"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:hint="Phone Number"
         android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black">
+        app:boxStrokeColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtLayoutPassword">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/phone"
@@ -107,12 +124,15 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtLayoutAddress"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:hint="Address"
         android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black">
+        app:boxStrokeColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtLayoutPhone">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/address"
@@ -123,35 +143,48 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <CheckBox
-        android:id="@+id/isUser"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/checkboxContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Register As User"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/address" />
-
-    <CheckBox
-        android:id="@+id/isAdmin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="Register as Admin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/isUser"
-        app:layout_constraintTop_toBottomOf="@+id/address" />
+        app:layout_constraintTop_toBottomOf="@id/txtLayoutAddress"
+        android:layout_marginBottom="16dp">
+
+        <CheckBox
+            android:id="@+id/isUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Register As User"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/isAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Register as Admin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/isUser"
+            app:layout_constraintHorizontal_chainStyle="spread" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/btnregister"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Register"
         android:textColor="@color/white"
         android:background="@color/black"
         android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkboxContainer"
         android:layout_marginBottom="16dp"/>
 
     <ProgressBar
@@ -159,7 +192,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/btnregister"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="16dp"/>
 
     <TextView
@@ -170,6 +205,9 @@
         android:textColor="@color/black"
         android:onClick="log"
         android:textStyle="bold"
-        android:layout_gravity="center"/>
+        app:layout_constraintTop_toBottomOf="@id/progressbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
