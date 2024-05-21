@@ -46,4 +46,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    testImplementation("org.mockito:mockito-core:3.12.4")//for mocking login unit testing
+    testImplementation("org.mockito:mockito-inline:3.12.4")
+    testImplementation("org.robolectric:robolectric:4.7.3")
+    implementation("com.google.firebase:firebase-auth:21.0.3")
+
 }

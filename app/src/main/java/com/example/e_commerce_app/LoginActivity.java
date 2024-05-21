@@ -45,16 +45,15 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginUserAccount();
+                String email = emailTextView.getText().toString();
+                String password = passwordTextView.getText().toString();
+                loginUserAccount(email, password);
             }
         });
     }
 
-    private void loginUserAccount() {
+    private void loginUserAccount(String email, String password) {
         progressBar.setVisibility(View.VISIBLE);
-
-        String email = emailTextView.getText().toString();
-        String password = passwordTextView.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Please enter email!!", Toast.LENGTH_LONG).show();
@@ -64,11 +63,6 @@ public class LoginActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(password)) {
             Toast.makeText(getApplicationContext(), "Please enter password!!", Toast.LENGTH_LONG).show();
-            progressBar.setVisibility(View.GONE);
-            return;
-        }
-        if (TextUtils.isEmpty(password) && TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), "Please enter password and email", Toast.LENGTH_LONG).show();
             progressBar.setVisibility(View.GONE);
             return;
         }
