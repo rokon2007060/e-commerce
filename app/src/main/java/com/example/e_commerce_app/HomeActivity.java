@@ -1,11 +1,16 @@
 package com.example.e_commerce_app;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -19,6 +24,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.e_commerce_app.databinding.ActivityHomeBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -55,8 +62,18 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        // Retrieve user data from Intent
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("full_name");
+        String email = intent.getStringExtra("email1");
+        String photoUrl = intent.getStringExtra("photoUrl");
+
+        // Update the navigation drawer header with user information
+        updateNavHeader(name, email, photoUrl);
+
         // Update the menu items based on user login status
         updateMenuItems();
+
         // Handle navigation item selection
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -64,6 +81,37 @@ public class HomeActivity extends AppCompatActivity {
                 return handleNavigationItemSelected(item);
             }
         });
+
+        // Refresh header if logged in
+        refreshNavHeader();
+    }
+
+    private void updateNavHeader(String name, String email, String photoUrl) {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        ImageView profileImageView = headerView.findViewById(R.id.profile_image);
+        TextView profileNameTextView = headerView.findViewById(R.id.profile_name);
+        TextView profileEmailTextView = headerView.findViewById(R.id.profile_email);
+
+//        Toast.makeText(this, "Hello " + name  , Toast.LENGTH_LONG).show();
+        profileNameTextView.setText(name);
+        profileEmailTextView.setText(email);
+
+        if (photoUrl != null && !photoUrl.isEmpty()) {
+            Glide.with(this).load(photoUrl).into(profileImageView);
+        } else {
+            profileImageView.setImageResource(R.mipmap.ic_launcher_round); // Set default image
+        }
+    }
+
+    public void refreshNavHeader() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri photoUrl = user.getPhotoUrl();
+            updateNavHeader(name, email, photoUrl != null ? photoUrl.toString() : null);
+        }
     }
 
     @Override
@@ -91,7 +139,7 @@ public class HomeActivity extends AppCompatActivity {
     private boolean checkLoginStatus() {
         // Implement logic to check if the user is logged in
         // Return true if logged in, false otherwise
-        return false; // Placeholder
+        return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
     private boolean handleNavigationItemSelected(MenuItem item) {
@@ -126,6 +174,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void logout() {
         // Perform logout logic, such as clearing user session data
+        FirebaseAuth.getInstance().signOut();
         updateMenuItems();
         Snackbar.make(binding.drawerLayout, "Logged out", Snackbar.LENGTH_SHORT).show();
     }
