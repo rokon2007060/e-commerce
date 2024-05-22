@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,17 +18,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText emailTextView, passwordTextView;
     private Button loginButton;
     private ProgressBar progressBar;
-
     private FirebaseAuth mAuth;
-    private FirebaseFirestore fstore;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        fstore = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         emailTextView = findViewById(R.id.email);
         passwordTextView = findViewById(R.id.password);
@@ -75,8 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 if (user != null) {
-                                    Toast.makeText(getApplicationContext(), "Login successful!!", Toast.LENGTH_LONG).show();
-                                    checkAccessLevel(user.getUid());
+                                    fetchUserData(user.getUid());
                                 } else {
                                     Toast.makeText(getApplicationContext(), "User object is null", Toast.LENGTH_LONG).show();
                                     progressBar.setVisibility(View.GONE);
@@ -94,47 +94,77 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+
+
+    private void fetchUserData(String uid) {
+        db.collection("users").document(uid).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+
+                                String fullName = document.getString("full_name");
+                                String email1 = document.getString("email");
+                                Toast.makeText(getApplicationContext(), "Fetching user data found  " + fullName , Toast.LENGTH_LONG).show();
+
+                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                intent.putExtra("full_name", fullName);
+                                intent.putExtra("email", email1);
+                                intent.putExtra("photoUrl", "");
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "No such user data found", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Log.e("LoginActivity", "Error fetching user data", task.getException());
+                            Toast.makeText(getApplicationContext(), "An error occurred while fetching user data", Toast.LENGTH_LONG).show();
+                        }
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+
+//    private void fetchUserData(String uid) {
+//        db.collection("users").document(uid).get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//
+//                    Toast.makeText(this,"Fetching data",Toast.LENGTH_LONG.show());
+//                    @Override
+//                    public void onComplete(Task<DocumentSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            DocumentSnapshot document = task.getResult();
+//                            if (document.exists()) {
+//                                String fullName = document.getString("full_name");
+//                                String email = document.getString("email");
+//
+////                                Toast.makeText(getApplicationContext(), "Welcome " + fullName, Toast.LENGTH_LONG).show();
+//                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//                                intent.putExtra("full_name", fullName);
+//                                intent.putExtra("email", email);
+//                                intent.putExtra("photoUrl", "");
+//                                startActivity(intent);
+//                                finish();
+//                            } else {
+//                                Toast.makeText(getApplicationContext(), "No such user data found", Toast.LENGTH_LONG).show();
+//                            }
+//                        } else {
+//                            Log.e("LoginActivity", "Error fetching user data", task.getException());
+//                            Toast.makeText(getApplicationContext(), "An error occurred while fetching user data", Toast.LENGTH_LONG).show();
+//                        }
+//                        progressBar.setVisibility(View.GONE);
+//                    }
+//                });
+//    }
+
     public void reg(View view) {
         startActivity(new Intent(this, RegistrationActivity.class));
     }
 
     public void fpsw(View view) {
         startActivity(new Intent(this, ForgotPasswordActivity.class));
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            checkAccessLevel(currentUser.getUid());
-        }
-    }
-
-    private void checkAccessLevel(String uid) {
-        DocumentReference df = fstore.collection("users").document(uid);
-        df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document != null) {
-                        if (document.getString("isAdmin") != null) {
-                            startActivity(new Intent(LoginActivity.this, AdminActivity.class));
-                            finish();
-                        } else if (document.getString("isUser") != null) {
-                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                            finish();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(LoginActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(LoginActivity.this, "Failed to get user data", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 }
