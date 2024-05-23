@@ -1,0 +1,23 @@
+<!-- res/drawable/circular_image_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Border -->
+    <item>
+        <shape android:shape="oval">
+            <size android:width="100dp" android:height="100dp"/>
+            <solid android:color="#FFFFFF"/>
+            <stroke
+                android:width="2dp"
+                android:color="#FF6200EE"/>
+        </shape>
+    </item>
+
+    <!-- Inner Circle -->
+    <item android:right="1dp" android:left="1dp" android:top="1dp" android:bottom="1dp">
+        <shape android:shape="oval">
+            <size android:width="96dp" android:height="96dp"/>
+            <solid android:color="#CCCCCC"/>
+        </shape>
+    </item>
+
+</layer-list>

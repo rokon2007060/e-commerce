@@ -18,6 +18,7 @@
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.EcommerceApp.NoActionBar">
         </activity>
+
         <activity
             android:name=".AdminActivity"
             android:exported="false" />
