@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,8 +35,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
-        fstore = FirebaseFirestore.getInstance();
+        // Use Singleton to get Firebase instances
+        Singleton singleton = Singleton.getInstance();
+        mAuth = singleton.getAuth();
+        fstore = singleton.getFirestore();
+
+        Log.d("LoginActivity", "Singleton instance used: " + singleton);
 
         emailTextView = findViewById(R.id.email);
         passwordTextView = findViewById(R.id.password);
@@ -70,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(Task<AuthResult> task) {
+                    public void onComplete(@NonNull Task<AuthResult> task) {
                         try {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
@@ -115,23 +120,54 @@ public class LoginActivity extends AppCompatActivity {
         DocumentReference df = fstore.collection("users").document(uid);
         df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(Task<DocumentSnapshot> task) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document != null) {
-                        if (document.getString("isAdmin") != null) {
+                    if (document != null && document.exists()) {
+                        Log.d("LoginActivity", "DocumentSnapshot data: " + document.getData());
+
+                        // Check if isAdmin is Boolean
+                        Boolean isAdmin = null;
+                        Object isAdminField = document.get("isAdmin");
+                        if (isAdminField instanceof Boolean) {
+                            isAdmin = (Boolean) isAdminField;
+                        }
+
+                        // Check if isUser is Boolean
+                        Boolean isUser = null;
+                        Object isUserField = document.get("isUser");
+                        if (isUserField instanceof Boolean) {
+                            isUser = (Boolean) isUserField;
+                        }
+
+                        // Check if isSeller is Boolean or String
+                        Boolean isSeller = null;
+                        Object isSellerField = document.get("isSeller");
+                        if (isSellerField instanceof Boolean) {
+                            isSeller = (Boolean) isSellerField;
+                        } else if (isSellerField instanceof String) {
+                            isSeller = "1".equals(isSellerField);
+                        }
+
+                        if (Boolean.TRUE.equals(isAdmin)) {
                             startActivity(new Intent(LoginActivity.this, AdminActivity.class));
                             finish();
-                        } else if (document.getString("isUser") != null) {
+                        } else if (Boolean.TRUE.equals(isUser)) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        } else if (Boolean.TRUE.equals(isSeller)) {
+                            startActivity(new Intent(LoginActivity.this, SellerActivity.class));
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
                         }
                     } else {
+                        Log.d("LoginActivity", "No such document");
                         Toast.makeText(LoginActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
                     }
                 } else {
+                    Log.d("LoginActivity", "get failed with ", task.getException());
                     Toast.makeText(LoginActivity.this, "Failed to get user data", Toast.LENGTH_SHORT).show();
                 }
             }
