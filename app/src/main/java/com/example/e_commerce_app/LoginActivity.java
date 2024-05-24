@@ -35,8 +35,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
-        fstore = FirebaseFirestore.getInstance();
+        // Get FirebaseAuth and FirebaseFirestore instances from Singleton
+        mAuth = Singleton.getInstance().getAuth();
+        fstore = Singleton.getInstance().getFirestore();
 
         emailTextView = findViewById(R.id.email);
         passwordTextView = findViewById(R.id.password);
@@ -123,36 +124,18 @@ public class LoginActivity extends AppCompatActivity {
                     if (document != null && document.exists()) {
                         Log.d("LoginActivity", "DocumentSnapshot data: " + document.getData());
 
-                        // Check if isAdmin is Boolean
-                        Boolean isAdmin = null;
-                        Object isAdminField = document.get("isAdmin");
-                        if (isAdminField instanceof Boolean) {
-                            isAdmin = (Boolean) isAdminField;
-                        }
+                        // Check if isAdmin, isUser, or isSeller is "1"
+                        String isAdmin = document.getString("isAdmin");
+                        String isUser = document.getString("isUser");
+                        String isSeller = document.getString("isSeller");
 
-                        // Check if isUser is Boolean
-                        Boolean isUser = null;
-                        Object isUserField = document.get("isUser");
-                        if (isUserField instanceof Boolean) {
-                            isUser = (Boolean) isUserField;
-                        }
-
-                        // Check if isSeller is Boolean or String
-                        Boolean isSeller = null;
-                        Object isSellerField = document.get("isSeller");
-                        if (isSellerField instanceof Boolean) {
-                            isSeller = (Boolean) isSellerField;
-                        } else if (isSellerField instanceof String) {
-                            isSeller = "1".equals(isSellerField);
-                        }
-
-                        if (Boolean.TRUE.equals(isAdmin)) {
+                        if ("1".equals(isAdmin)) {
                             startActivity(new Intent(LoginActivity.this, AdminActivity.class));
                             finish();
-                        } else if (Boolean.TRUE.equals(isUser)) {
+                        } else if ("1".equals(isUser)) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
-                        } else if (Boolean.TRUE.equals(isSeller)) {
+                        } else if ("1".equals(isSeller)) {
                             startActivity(new Intent(LoginActivity.this, SellerActivity.class));
                             finish();
                         } else {
