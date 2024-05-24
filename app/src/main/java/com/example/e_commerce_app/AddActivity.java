@@ -46,7 +46,6 @@ public class AddActivity extends AppCompatActivity {
     private Spinner spinnerCategories;
     private static final int PICK_IMAGE_REQUEST = 1;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,9 +159,9 @@ public class AddActivity extends AppCompatActivity {
         productMap.put("imageUrl", imageUrl);
         productMap.put("sellerId", userId);
         productMap.put("category", category);
+        productMap.put("rating", 0);
 
-        firestore.collection("users").document(userId)
-                .collection("isSeller").document(productId)
+        firestore.collection("products").document(productId)
                 .set(productMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -177,11 +176,13 @@ public class AddActivity extends AppCompatActivity {
                     }
                 });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -196,5 +197,4 @@ public class AddActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

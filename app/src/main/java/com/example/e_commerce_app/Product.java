@@ -1,26 +1,30 @@
 package com.example.e_commerce_app;
 
-public class Product {
+public class Product implements Cloneable{
+
     private String id;
+    private String sellerId;
     private String name;
     private String description;
     private double price;
     private String imageUrl;
-    private String sellerId;
     private String category;
+    private float rating;
 
     public Product() {
         // Default constructor required for calls to DataSnapshot.getValue(Product.class)
+        this.rating = 0; // Default rating value
     }
 
-    public Product(String id, String name, String description, double price, String imageUrl, String sellerId, String category) {
+    public Product(String id, String name, String description, double price, String imageUrl, String category, float rating) {
         this.id = id;
+        this.sellerId = sellerId;
         this.name = name;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
-        this.sellerId = sellerId;
         this.category = category;
+        this.rating = rating;
     }
 
     // Getter and Setter methods
@@ -31,6 +35,14 @@ public class Product {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
     }
 
     public String getName() {
@@ -65,19 +77,28 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public String getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(String sellerId) {
-        this.sellerId = sellerId;
-    }
-
     public String getCategory() {
         return category;
     }
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    @Override
+    protected Product clone() {
+        try {
+            return (Product) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
