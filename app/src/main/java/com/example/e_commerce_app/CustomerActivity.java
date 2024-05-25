@@ -94,6 +94,20 @@ public class CustomerActivity extends AppCompatActivity implements NavigationVie
         Button btnElectronics = findViewById(R.id.btn_electronics);
         Button btnBooks = findViewById(R.id.btn_books);
 
+        ImageView products_cart = findViewById(R.id.products_cart);
+
+
+
+        products_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
         btnAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +143,9 @@ public class CustomerActivity extends AppCompatActivity implements NavigationVie
         btnBooks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 currentCategory = "Books";
+
                 loadProducts(currentCategory);
             }
         });

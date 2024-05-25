@@ -136,8 +136,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
                     .whereEqualTo("sellerId", userId)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            firestore.collection("products").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             if (task.isSuccessful()) {
                                 for (DocumentSnapshot document : task.getResult()) {
                                     Product product = document.toObject(Product.class);
@@ -145,7 +144,6 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
                                 }
                                 productAdapter.notifyDataSetChanged();
                             }
-                        }
                     });
         }     else{
                 firestore.collection("products")
@@ -162,6 +160,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
                                     }
                                     productAdapter.notifyDataSetChanged();
                                 }
+
                             }
                         });
             }
