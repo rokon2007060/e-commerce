@@ -21,87 +21,84 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <!-- First line of buttons -->
-        <LinearLayout
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:padding="10dp"
+            android:background="?attr/colorPrimary">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_all"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="All"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
-                android:padding="16dp"
-                android:textSize="18sp"
-                android:background="@drawable/button_selector"/>
+                android:orientation="horizontal">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_medicine"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Medicine"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
-                android:padding="16dp"
-                android:textSize="18sp"
-                android:background="@drawable/button_selector"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All"
+                    android:textColor="@android:color/white"
+                    android:layout_margin="8dp"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/button_selector"/>
 
-        </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_medicine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medicine"
+                    android:textColor="@android:color/white"
+                    android:layout_margin="8dp"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/button_selector"/>
 
-        <!-- Second line of buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_clothing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clothing"
+                    android:textColor="@android:color/white"
+                    android:layout_margin="8dp"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/button_selector"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_clothing"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Clothing"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
-                android:padding="16dp"
-                android:textSize="18sp"
-                android:background="@drawable/button_selector"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_electronics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Electronics"
+                    android:textColor="@android:color/white"
+                    android:layout_margin="8dp"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/button_selector"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_electronics"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Electronics"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
-                android:padding="16dp"
-                android:textSize="18sp"
-                android:background="@drawable/button_selector"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_books"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Books"
+                    android:textColor="@android:color/white"
+                    android:layout_margin="8dp"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/button_selector"/>
 
-        </LinearLayout>
-
-        <!-- Third line of buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_books"
-                android:layout_width="175dp"
-                android:layout_height="65dp"
-                android:text="Books"
-                android:textColor="@android:color/white"
-                android:layout_margin="8dp"
-                android:padding="16dp"
-                android:textSize="18sp"
-                android:background="@drawable/button_selector"/>
-
-        </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_foods"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Foods"
+                    android:textColor="@android:color/white"
+                    android:layout_margin="8dp"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/button_selector"/>
+            </LinearLayout>
+        </HorizontalScrollView>
 
 
         <FrameLayout

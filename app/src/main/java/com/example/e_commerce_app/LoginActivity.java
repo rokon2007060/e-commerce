@@ -133,7 +133,8 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(new Intent(LoginActivity.this, AdminActivity.class));
                             finish();
                         } else if ("1".equals(isUser)) {
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, CustomerActivity.class));
+                            Toast.makeText(LoginActivity.this, "Going to Customer Activity", Toast.LENGTH_SHORT).show();
                             finish();
                         } else if ("1".equals(isSeller)) {
                             startActivity(new Intent(LoginActivity.this, SellerActivity.class));

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/text_view_payable_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Payable Amount: ৳0.0"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp" />
+
+    <RadioGroup
+        android:id="@+id/radio_group_payment_methods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radio_bkash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bkash" />
+
+        <RadioButton
+            android:id="@+id/radio_cash_on_delivery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cash on Delivery" />
+
+        <RadioButton
+            android:id="@+id/radio_nagad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nagad" />
+
+        <RadioButton
+            android:id="@+id/radio_rocket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rocket" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/button_confirm_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirm Payment"
+        android:layout_marginTop="20dp" />
+</LinearLayout>

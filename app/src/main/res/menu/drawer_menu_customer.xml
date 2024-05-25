@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/register"
+            android:title="Account" />
+        <item
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/carts"
+            android:title="Orders" />
+        <item
+            android:id="@+id/logoutButton"
+            android:icon="@drawable/logout"
+            android:title="Logout" />
+    </group>
+</menu>
