@@ -45,4 +45,25 @@
         android:text="Category"
         android:textSize="12sp"
         android:textStyle="italic" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/favourite"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:src="@drawable/favourite"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/products_cart"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:src="@drawable/cart"
+            android:layout_weight="1"
+            android:padding="0dp"/>
+
+    </LinearLayout>
 </LinearLayout>

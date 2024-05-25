@@ -19,27 +19,56 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            >
+
             <LinearLayout
+                android:padding="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
+
                 <EditText
                     android:id="@+id/search_bar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:hint="Search for products"
                     android:padding="10dp"
-                    android:background="@drawable/carts"/>
+                    android:background="@color/white"/>
+
+<!--                <View-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="6" />-->
+
                 <ImageView
                     android:id="@+id/search_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="10dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/button_selector"
+                    android:src="@drawable/search"
+                    android:layout_weight="1"
+                    android:padding="10dp"/>
+
+                <ImageView
+                    android:id="@+id/favourite"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/favourite"
+                    android:layout_weight="1"
+                    android:padding="10dp"/>
+                <ImageView
+                    android:id="@+id/products_cart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/carts"
+                    android:layout_weight="1"
                     android:padding="10dp"/>
             </LinearLayout>
+
+
         </androidx.appcompat.widget.Toolbar>
+
 
         <HorizontalScrollView
             android:layout_width="match_parent"

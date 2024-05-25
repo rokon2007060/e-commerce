@@ -44,13 +44,24 @@ public class ProductCache {
     }
 
     public static List<Product> searchProducts(String query) {
-        List<Product> products = new ArrayList<>();
+        List<Product> exactMatches = new ArrayList<>();
+        List<Product> partialMatches = new ArrayList<>();
+
         for (Product product : productMap.values()) {
             if (product.getName().equalsIgnoreCase(query)) {
-                products.add(product.clone());
+                exactMatches.add(product.clone());
+            } else if (product.getName().toLowerCase().contains(query.toLowerCase())) {
+                partialMatches.add(product.clone());
             }
         }
+
+        // Combine the two lists: first exact matches, then partial matches
+        List<Product> products = new ArrayList<>();
+        products.addAll(exactMatches);
+        products.addAll(partialMatches);
+
         Log.d(TAG, "Products matching query '" + query + "': " + products.size());
         return products;
     }
+
 }
