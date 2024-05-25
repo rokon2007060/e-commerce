@@ -2,7 +2,16 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="LoginActivityTest">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="testLoadAllProducts()">
+        <State />
+      </entry>
+      <entry key="testSuccessfulLogin()">
         <State />
       </entry>
     </value>
