@@ -51,11 +51,11 @@ public class LoginActivityTest {
 
         // Type valid email
         Espresso.onView(ViewMatchers.withId(R.id.email))
-                .perform(ViewActions.typeText("testuser@example.com"), ViewActions.closeSoftKeyboard());
+                .perform(ViewActions.typeText("a@gmail.com"), ViewActions.closeSoftKeyboard());
 
         // Type valid password
         Espresso.onView(ViewMatchers.withId(R.id.password))
-                .perform(ViewActions.typeText("password123"), ViewActions.closeSoftKeyboard());
+                .perform(ViewActions.typeText("123456"), ViewActions.closeSoftKeyboard());
 
         // Click the login button
         Espresso.onView(ViewMatchers.withId(R.id.login))
