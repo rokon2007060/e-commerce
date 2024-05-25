@@ -13,7 +13,6 @@ public class Singleton {
     private Singleton() {
         mAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
-        Log.d("Singleton", "Singleton instance created");
     }
 
     public static synchronized Singleton getInstance() {
@@ -27,7 +26,15 @@ public class Singleton {
         return mAuth;
     }
 
+    public void setAuth(FirebaseAuth auth) {
+        this.mAuth = auth;
+    }
+
     public FirebaseFirestore getFirestore() {
         return fstore;
+    }
+
+    public void setFirestore(FirebaseFirestore fstore) {
+        this.fstore = fstore;
     }
 }
