@@ -1,0 +1,34 @@
+[33m6dde9ba[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mhome[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mseller[m[33m)[m merge conflict resolved
+[33mb47d262[m Merge branch 'home'
+[33mfcea327[m merge conflict resolved
+[33m0266e3d[m kisu
+[33md7c81e4[m upload specific seller's product details,updating and deleting and show all or based on category in recyclerView and use SingleTon design pattern in LoginActivity
+[33m1457429[m Merge pull request #4 from rokon2007060/home
+[33mf643c9a[m[33m ([m[1;31morigin/home[m[33m)[m java version update
+[33md3619a2[m Merge pull request #3 from rokon2007060/home
+[33m3089e5a[m yml new update
+[33mbec34c1[m Create android.yml
+[33m877b976[m Merge pull request #2 from rokon2007060/home
+[33m7c00c5b[m yml file updated
+[33med85e5d[m Merge pull request #1 from rokon2007060/home
+[33me57e736[m yml file created
+[33m82aa2ed[m[33m ([m[1;32mmain[m[33m)[m Merge branch 'main' of https://github.com/rokon2007060/e-commerce
+[33m0c4c790[m ui responsive
+[33m74dbf27[m gradle updated
+[33me207e38[m rr
+[33m8b880b9[m eeeeee
+[33ma42b730[m mone hoi run korbe
+[33mcb344a2[m conflict resloved in deloymentTrget.xml
+[33m6530bb1[m merge conflict resolved in gradle.xml
+[33me7340a9[m simple
+[33mf6a90f7[m First commit by rokon
+[33m385b05f[m resolved login problem(automatic app crash while logging)
+[33m816c056[m individual login implementation for admin and user
+[33m02f7ba3[m Add onStart method to LoginActivity and Implement real logout functionality
+[33m3c1f42d[m profile integrity resolved
+[33me9d7bc2[m data fetching and showing on mainactivity
+[33m6bc754a[m firestore implementation and logout button done
+[33m11b2a04[m Forgot password functionality added
+[33m10d5106[m Merge remote-tracking branch 'origin/main'
+[33mc14f831[m user login and registraion using firebase
+[33m4f2ff5c[m Initial commit

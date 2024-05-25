@@ -129,10 +129,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
         String userId = mAuth.getCurrentUser().getUid();
 
         if (category.equals("All")) {
-            firestore.collection("users").document(userId)
-                    .collection("isSeller")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            firestore.collection("products").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
@@ -145,11 +142,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
                         }
                     });
         } else {
-            firestore.collection("users").document(userId)
-                    .collection("isSeller")
-                    .whereEqualTo("category", category)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            firestore.collection("products").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
