@@ -2,6 +2,7 @@ package com.example.e_commerce_app;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,21 +10,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.util.List;
 
 public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapter.ViewHolder> {
+
+    private static final String TAG = "AdminProductAdapter";
 
     private Context context;
     private List<Product> productList;
@@ -79,31 +76,41 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
 
         AlertDialog dialog = builder.create();
 
-        deleteButton.setOnClickListener(view -> {
-            deleteProduct(product.getId(), product.getImageUrl());
-            dialog.dismiss();
-        });
+        deleteButton.setOnClickListener(view -> deleteProduct(product, dialog));
 
         dialog.show();
     }
 
-    private void deleteProduct(String productId, String imageUrl) {
+    private void deleteProduct(Product product, AlertDialog dialog) {
+        // Log the image URL
+        Log.d(TAG, "Deleting image at URL: " + product.getImageUrl());
+
         // Delete image from storage
-        StorageReference imageRef = storage.getReferenceFromUrl(imageUrl);
+        StorageReference imageRef = storage.getReferenceFromUrl(product.getImageUrl());
         imageRef.delete().addOnSuccessListener(aVoid -> {
             // Image deleted successfully, now delete the product from Firestore
-            db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .collection("isSeller").document(productId)
+            Log.d(TAG, "Image deleted successfully. Now deleting Firestore document for product ID: " + product.getId());
+
+            db.collection("users").document(product.getSellerId())
+                    .collection("isSeller").document(product.getId())
                     .delete()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
+                            Log.d(TAG, "Product deleted successfully from Firestore for product ID: " + product.getId());
                             Toast.makeText(context, "Product deleted successfully", Toast.LENGTH_SHORT).show();
-                            removeProductFromList(productId);
+                            removeProductFromList(product.getId());
+                            dialog.dismiss();
                         } else {
-                            Toast.makeText(context, "Failed to delete product", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "Failed to delete product from Firestore for product ID: " + product.getId(), task.getException());
+                            Toast.makeText(context, "Failed to delete product from Firestore", Toast.LENGTH_SHORT).show();
                         }
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e(TAG, "Failed to delete product from Firestore for product ID: " + product.getId(), e);
+                        Toast.makeText(context, "Failed to delete product from Firestore", Toast.LENGTH_SHORT).show();
                     });
         }).addOnFailureListener(e -> {
+            Log.e(TAG, "Failed to delete image: " + e.getMessage());
             Toast.makeText(context, "Failed to delete image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
