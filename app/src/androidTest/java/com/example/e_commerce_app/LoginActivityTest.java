@@ -1,56 +1,86 @@
 package com.example.e_commerce_app;
 
-import android.content.Context;
-
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
 
-    @Before
-    public void setUp() {
-        FirebaseAuth mockAuth = MockFirebaseAuth.getMockFirebaseAuth();
-        Singleton.getInstance().setAuth(mockAuth);  // Ensure Singleton uses mock auth
-    }
+    @Rule
+    public ActivityTestRule<LoginActivity> activityRule = new ActivityTestRule<>(LoginActivity.class);
 
     @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.e_commerce_app", appContext.getPackageName());
-    }
-
-    @Test
-    public void testActivityLaunch() {
-        ActivityScenario<LoginActivity> scenario = ActivityScenario.launch(LoginActivity.class);
-        onView(withId(R.id.login)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void testLoginWithEmptyEmail() {
+    public void testLoginUIElements() {
+        // Launch the activity
         ActivityScenario<LoginActivity> scenario = ActivityScenario.launch(LoginActivity.class);
 
-        // Click the login button without entering email or password
-        onView(withId(R.id.login)).perform(click());
+        // Check if email input field is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.email))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
-        // Check if the Toast message is displayed
-        onView(withText("Please enter email!!"))
-                .inRoot(new ToastMatcher())
-                .check(matches(isDisplayed()));
+        // Check if password input field is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.password))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        // Check if login button is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.login))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        // Check if the "Forgot Password?" TextView is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.txtfpsw))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        // Check if the "Don't have an account? Sign up" TextView is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.txt3))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
+
+    @Test
+    public void testValidLoginInput() {
+        // Launch the activity
+        ActivityScenario<LoginActivity> scenario = ActivityScenario.launch(LoginActivity.class);
+
+        // Type valid email
+        Espresso.onView(ViewMatchers.withId(R.id.email))
+                .perform(ViewActions.typeText("testuser@example.com"), ViewActions.closeSoftKeyboard());
+
+        // Type valid password
+        Espresso.onView(ViewMatchers.withId(R.id.password))
+                .perform(ViewActions.typeText("password123"), ViewActions.closeSoftKeyboard());
+
+        // Click the login button
+        Espresso.onView(ViewMatchers.withId(R.id.login))
+                .perform(ViewActions.click());
+
+        // Check if the progress bar is visible after clicking login
+        Espresso.onView(ViewMatchers.withId(R.id.progressBar))
+                .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+    }
+
+    @Test
+    public void testInvalidLoginInput() {
+        // Launch the activity
+        ActivityScenario<LoginActivity> scenario = ActivityScenario.launch(LoginActivity.class);
+
+        // Leave email field empty and type password
+        Espresso.onView(ViewMatchers.withId(R.id.password))
+                .perform(ViewActions.typeText("password123"), ViewActions.closeSoftKeyboard());
+
+        // Click the login button
+        Espresso.onView(ViewMatchers.withId(R.id.login))
+                .perform(ViewActions.click());
+
+        // Check if the progress bar is not visible after clicking login
+        Espresso.onView(ViewMatchers.withId(R.id.progressBar))
+                .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+}
 }

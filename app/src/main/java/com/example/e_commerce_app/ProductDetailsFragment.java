@@ -47,7 +47,7 @@ public class ProductDetailsFragment extends Fragment {
             productPriceTextView.setText(String.format("৳%.2f", productPrice));
             productCategoryTextView.setText(productCategory);
             //productRatingBar.setRating(productRating);
-           productRatingBar.setRating(productRating);
+            //productRatingBar.setRating(productRating);
         }
 
         return rootView;
