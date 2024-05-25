@@ -55,8 +55,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        registration = firestore.collection("users").document(userId)
-                .collection("isSeller")
+        registration = firestore.collection("products")
+                .whereEqualTo("sellerId", userId)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot snapshots,
@@ -180,15 +180,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     private void updateProduct(String productId, double newPrice, String newDescription, String newCategory) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+       Map<String,Object> p=new HashMap<>();
+        Map<String, Object> productMap = new HashMap<>();
+        productMap.put("price", newPrice);
+        productMap.put("description", newDescription);
+        productMap.put("category", newCategory);
+        productMap.put("id", productId);
 
-        Map<String, Object> updatedProduct = new HashMap<>();
-        updatedProduct.put("price", newPrice);
-        updatedProduct.put("description", newDescription);
-        updatedProduct.put("category", newCategory);
 
-        firestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .collection("isSeller").document(productId)
-                .update(updatedProduct)
+
+
+        firestore.collection("products").document(productId)
+                .update(productMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -212,8 +215,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             public void onSuccess(Void aVoid) {
                 // Image deleted successfully
                 // Now delete the product from Firestore
-                firestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .collection("isSeller").document(productId)
+                firestore.collection("products").document(productId)
+
                         .delete()
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override

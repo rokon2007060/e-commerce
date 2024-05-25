@@ -8,12 +8,6 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="testLoadAllProducts()">
-        <State />
-      </entry>
-      <entry key="testSuccessfulLogin()">
-        <State />
-      </entry>
     </value>
   </component>
 </project>

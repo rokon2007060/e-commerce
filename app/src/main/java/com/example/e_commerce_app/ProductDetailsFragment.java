@@ -34,7 +34,8 @@ public class ProductDetailsFragment extends Fragment {
             TextView productDescriptionTextView = rootView.findViewById(R.id.product_description);
             TextView productPriceTextView = rootView.findViewById(R.id.product_price);
             TextView productCategoryTextView = rootView.findViewById(R.id.product_category);
-//            RatingBar productRatingBar = rootView.findViewById(R.id.product_rating);
+
+            //RatingBar productRatingBar = rootView.findViewById(R.id.product_rating);
             ImageView addCart = rootView.findViewById(R.id.add_products_cart);
             ImageView addRavourite = rootView.findViewById(R.id.add_favourite);
 
@@ -45,7 +46,8 @@ public class ProductDetailsFragment extends Fragment {
             productDescriptionTextView.setText(productDescription);
             productPriceTextView.setText(String.format("৳%.2f", productPrice));
             productCategoryTextView.setText(productCategory);
-//            productRatingBar.setRating(productRating);
+            //productRatingBar.setRating(productRating);
+           productRatingBar.setRating(productRating);
         }
 
         return rootView;

@@ -80,6 +80,8 @@ public class CustomerProductAdapter extends RecyclerView.Adapter<CustomerProduct
         TextView productPrice = dialog.findViewById(R.id.product_price);
         TextView productCategory = dialog.findViewById(R.id.product_category);
         RatingBar productRating = dialog.findViewById(R.id.product_rating);
+
+
         ImageView addToCartButton = dialog.findViewById(R.id.add_to_cart_button);
         ImageView addToFavoritesButton = dialog.findViewById(R.id.add_to_favorites_button);
         Button closeButton = dialog.findViewById(R.id.close_button);
@@ -94,7 +96,7 @@ public class CustomerProductAdapter extends RecyclerView.Adapter<CustomerProduct
         addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Call the addToCart method from the ShopFacade
+
                 ShopFacade.getInstance().addToCart(product.getId(), 1);
                 dialog.dismiss();
             }

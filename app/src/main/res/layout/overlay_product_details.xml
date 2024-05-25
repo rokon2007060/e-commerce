@@ -87,9 +87,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="BUY NOW"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAccent"
         android:textColor="@android:color/white" />
-
 
     <Button
         android:id="@+id/close_button"
@@ -97,6 +96,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Close"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAccent"
         android:textColor="@android:color/white"/>
 </LinearLayout>

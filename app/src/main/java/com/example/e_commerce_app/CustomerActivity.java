@@ -93,6 +93,7 @@ public class CustomerActivity extends AppCompatActivity implements NavigationVie
         Button btnClothing = findViewById(R.id.btn_clothing);
         Button btnElectronics = findViewById(R.id.btn_electronics);
         Button btnBooks = findViewById(R.id.btn_books);
+
         ImageView products_cart = findViewById(R.id.products_cart);
 
 
@@ -142,7 +143,9 @@ public class CustomerActivity extends AppCompatActivity implements NavigationVie
         btnBooks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentCategory = "Book";
+
+                currentCategory = "Books";
+
                 loadProducts(currentCategory);
             }
         });

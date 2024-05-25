@@ -37,6 +37,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +77,9 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
         btnAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(SellerActivity.this, "btn all is clicked", Toast.LENGTH_SHORT).show();
                 loadProducts("All");
+
             }
         });
 
@@ -129,9 +132,11 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
         String userId = mAuth.getCurrentUser().getUid();
 
         if (category.equals("All")) {
+            firestore.collection("products")
+                    .whereEqualTo("sellerId", userId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             firestore.collection("products").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (DocumentSnapshot document : task.getResult()) {
                                     Product product = document.toObject(Product.class);
@@ -139,21 +144,25 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
                                 }
                                 productAdapter.notifyDataSetChanged();
                             }
-                        }
                     });
-        } else {
-            firestore.collection("products").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (DocumentSnapshot document : task.getResult()) {
-                                    Product product = document.toObject(Product.class);
-                                    productList.add(product);
+        }     else{
+                firestore.collection("products")
+                        .whereEqualTo("sellerId", userId)
+                        .whereEqualTo("category", category)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        Product product = document.toObject(Product.class);
+                                        productList.add(product);
+                                    }
+                                    productAdapter.notifyDataSetChanged();
                                 }
-                                productAdapter.notifyDataSetChanged();
+
                             }
-                        }
-                    });
+                        });
+            }
         }
     }
-}

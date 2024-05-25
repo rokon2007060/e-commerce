@@ -1,4 +1,5 @@
 package com.example.e_commerce_app;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,76 +11,56 @@ public class ProductTest {
 
     @Before
     public void setUp() {
-        product = new Product();
+        product = new Product("1", "Test Product", "This is a test product", 99.99, "http://example.com/image.jpg", "Electronics", 4.5f);
     }
 
     @Test
-    public void testId() {
-        String id = "123";
-        product.setId(id);
-        assertEquals("Product ID should be set correctly", id, product.getId());
+    public void testGettersAndSetters() {
+        assertEquals("1", product.getId());
+        assertEquals("Test Product", product.getName());
+        assertEquals("This is a test product", product.getDescription());
+        assertEquals(99.99, product.getPrice(), 0);
+        assertEquals("http://example.com/image.jpg", product.getImageUrl());
+        assertEquals("Electronics", product.getCategory());
+        assertEquals(4.5f, product.getRating(), 0);
+
+        product.setId("2");
+        product.setName("New Product");
+        product.setDescription("New description");
+        product.setPrice(199.99);
+        product.setImageUrl("http://example.com/newimage.jpg");
+        product.setCategory("Books");
+        product.setRating(5.0f);
+
+        assertEquals("2", product.getId());
+        assertEquals("New Product", product.getName());
+        assertEquals("New description", product.getDescription());
+        assertEquals(199.99, product.getPrice(), 0);
+        assertEquals("http://example.com/newimage.jpg", product.getImageUrl());
+        assertEquals("Books", product.getCategory());
+        assertEquals(5.0f, product.getRating(), 0);
     }
 
     @Test
-    public void testName() {
-        String name = "Test Product";
-        product.setName(name);
-        assertEquals("Product name should be set correctly", name, product.getName());
+    public void testDefaultConstructor() {
+        Product defaultProduct = new Product();
+        assertNotNull(defaultProduct);
+        assertEquals(0, defaultProduct.getRating(), 0);
     }
 
     @Test
-    public void testDescription() {
-        String description = "This is a test product.";
-        product.setDescription(description);
-        assertEquals("Product description should be set correctly", description, product.getDescription());
-    }
+    public void testClone() {
+        Product clonedProduct = product.clone();
+        assertNotNull(clonedProduct);
+        assertEquals(product.getId(), clonedProduct.getId());
+        assertEquals(product.getName(), clonedProduct.getName());
+        assertEquals(product.getDescription(), clonedProduct.getDescription());
+        assertEquals(product.getPrice(), clonedProduct.getPrice(), 0);
+        assertEquals(product.getImageUrl(), clonedProduct.getImageUrl());
+        assertEquals(product.getCategory(), clonedProduct.getCategory());
+        assertEquals(product.getRating(), clonedProduct.getRating(), 0);
 
-    @Test
-    public void testPrice() {
-        double price = 99.99;
-        product.setPrice(price);
-        assertEquals("Product price should be set correctly", price, product.getPrice(), 0.0);
-    }
-
-    @Test
-    public void testImageUrl() {
-        String imageUrl = "http://example.com/image.jpg";
-        product.setImageUrl(imageUrl);
-        assertEquals("Product image URL should be set correctly", imageUrl, product.getImageUrl());
-    }
-
-    @Test
-    public void testSellerId() {
-        String sellerId = "seller123";
-        product.setSellerId(sellerId);
-        assertEquals("Product seller ID should be set correctly", sellerId, product.getSellerId());
-    }
-
-    @Test
-    public void testCategory() {
-        String category = "Electronics";
-        product.setCategory(category);
-        assertEquals("Product category should be set correctly", category, product.getCategory());
-    }
-
-    @Test
-    public void testParameterizedConstructor() {
-        String id = "123";
-        String name = "Test Product";
-        String description = "This is a test product.";
-        double price = 99.99;
-        String imageUrl = "http://example.com/image.jpg";
-        String sellerId = "seller123";
-        String category = "Electronics";
-
-        Product product = new Product(id, name, description, price, imageUrl, sellerId, category);
-
-        assertEquals("Product ID should be set correctly", id, product.getId());
-        assertEquals("Product name should be set correctly", name, product.getName());
-        assertEquals("Product description should be set correctly", description, product.getDescription());
-        assertEquals("Product price should be set correctly", price, product.getPrice(), 0.0);
-        assertEquals("Product image URL should be set correctly", imageUrl, product.getImageUrl());
-        assertEquals("Product seller ID should be set correctly", sellerId, product.getSellerId());
-        assertEquals("Product category should be set correctly", category, product.getCategory());
+        // Check that they are not the same object
+        assertNotSame(product, clonedProduct);
     }
 }
