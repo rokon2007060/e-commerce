@@ -129,7 +129,7 @@ public class CustomerActivity extends AppCompatActivity implements NavigationVie
         btnBooks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentCategory = "Book";
+                currentCategory = "Books";
                 loadProducts(currentCategory);
             }
         });

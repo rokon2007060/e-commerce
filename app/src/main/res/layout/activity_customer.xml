@@ -37,10 +37,10 @@
                     android:padding="10dp"
                     android:background="@color/white"/>
 
-<!--                <View-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_weight="6" />-->
+                <!--                <View-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:layout_weight="6" />-->
 
                 <ImageView
                     android:id="@+id/search_button"
@@ -150,13 +150,13 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/recycler_view_products"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:padding="10dp"-->
-<!--            android:background="#f0f0f0"/>-->
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/recycler_view_products"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:padding="10dp"-->
+        <!--            android:background="#f0f0f0"/>-->
 
         <FrameLayout
             android:id="@+id/fragment_container"

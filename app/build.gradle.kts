@@ -46,7 +46,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:25.0.0") // Use the latest version from BoM
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
-    implementation(libs.swiperefreshlayout)
+    //implementation(libs.swiperefreshlayout)
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     testImplementation("junit:junit:4.13.2")
     implementation("androidx.test:core:1.4.0")
 
