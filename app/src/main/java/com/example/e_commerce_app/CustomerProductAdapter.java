@@ -80,8 +80,8 @@ public class CustomerProductAdapter extends RecyclerView.Adapter<CustomerProduct
         TextView productPrice = dialog.findViewById(R.id.product_price);
         TextView productCategory = dialog.findViewById(R.id.product_category);
         RatingBar productRating = dialog.findViewById(R.id.product_rating);
-        Button addToCartButton = dialog.findViewById(R.id.add_to_cart_button);
-        Button addToFavoritesButton = dialog.findViewById(R.id.add_to_favorites_button);
+        ImageView addToCartButton = dialog.findViewById(R.id.add_to_cart_button);
+        ImageView addToFavoritesButton = dialog.findViewById(R.id.add_to_favorites_button);
         Button closeButton = dialog.findViewById(R.id.close_button);
 
         Glide.with(context).load(product.getImageUrl()).into(productImage);
@@ -94,8 +94,8 @@ public class CustomerProductAdapter extends RecyclerView.Adapter<CustomerProduct
         addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Add product to cart
-                // Add your add to cart logic here
+                // Call the addToCart method from the ShopFacade
+                ShopFacade.getInstance().addToCart(product.getId(), 1);
                 dialog.dismiss();
             }
         });
