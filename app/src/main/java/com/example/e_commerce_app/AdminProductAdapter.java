@@ -10,12 +10,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
 import java.util.List;
 
 public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapter.ViewHolder> {
@@ -91,8 +94,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
             // Image deleted successfully, now delete the product from Firestore
             Log.d(TAG, "Image deleted successfully. Now deleting Firestore document for product ID: " + product.getId());
 
-            db.collection("users").document(product.getSellerId())
-                    .collection("isSeller").document(product.getId())
+            db.collection("products").document(product.getId())
                     .delete()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {

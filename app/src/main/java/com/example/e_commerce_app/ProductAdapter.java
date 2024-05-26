@@ -180,7 +180,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     private void updateProduct(String productId, double newPrice, String newDescription, String newCategory) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-       Map<String,Object> p=new HashMap<>();
+        Map<String,Object> p=new HashMap<>();
         Map<String, Object> productMap = new HashMap<>();
         productMap.put("price", newPrice);
         productMap.put("description", newDescription);
