@@ -11,10 +11,13 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="testLoginUIElements()">
+      <entry key="splashScreen_isDisplayed()">
         <State />
       </entry>
-      <entry key="testSplashScreenDisplayed()">
+      <entry key="testInvalidLoginInput()">
+        <State />
+      </entry>
+      <entry key="testValidLoginInput()">
         <State />
       </entry>
     </value>
