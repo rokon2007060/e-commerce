@@ -20,6 +20,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.pm.PackageManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +40,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private boolean valid = true;
     private CheckBox isAdminBox, isUserBox, isSellerBox;
+
+    private static final int PERMISSION_REQUEST_CODE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +155,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                                     startActivity(new Intent(RegistrationActivity.this, SellerActivity.class));
                                                 }
                                                 finish();
+                                                sendNotification(fullName);
                                             } else {
                                                 Toast.makeText(getApplicationContext(), "Failed to register user", Toast.LENGTH_SHORT).show();
                                             }
@@ -161,6 +172,36 @@ public class RegistrationActivity extends AppCompatActivity {
     public void log(View view) {
         startActivity(new Intent (RegistrationActivity.this, LoginActivity.class));
         finish();
+    }
+
+
+    private void sendNotification(String fullName) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, PERMISSION_REQUEST_CODE);
+            return;
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NotificationHelper.CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle("New User Registered")
+                .setContentText("New user: " + fullName)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(0, builder.build());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, you can now send the notification
+                sendNotification(fullNameEditText.getText().toString().trim());
+            } else {
+                Toast.makeText(this, "Permission denied. Cannot send notification.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public boolean checkField(EditText textField) {
