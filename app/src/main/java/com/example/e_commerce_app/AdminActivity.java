@@ -137,7 +137,6 @@ public class AdminActivity extends AppCompatActivity {
 
     private void sendNotification(User user) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "user_notifications")
-                .setSmallIcon(R.drawable.ic_notification)
 
 
     }
