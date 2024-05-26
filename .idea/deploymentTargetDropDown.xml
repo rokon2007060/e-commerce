@@ -5,6 +5,15 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="splashScreen_isDisplayed()">
+        <State />
+      </entry>
+      <entry key="testInvalidLoginInput()">
+        <State />
+      </entry>
+      <entry key="testValidLoginInput()">
+        <State />
+      </entry>
     </value>
   </component>
 </project>

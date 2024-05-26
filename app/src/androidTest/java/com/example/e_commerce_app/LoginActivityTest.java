@@ -51,7 +51,7 @@ public class LoginActivityTest {
 
         // Type valid email
         Espresso.onView(ViewMatchers.withId(R.id.email))
-                .perform(ViewActions.typeText("a@gmail.com"), ViewActions.closeSoftKeyboard());
+                .perform(ViewActions.typeText("a@gmail.com.com"), ViewActions.closeSoftKeyboard());
 
         // Type valid password
         Espresso.onView(ViewMatchers.withId(R.id.password))

@@ -51,7 +51,7 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     //implementation(libs.swiperefreshlayout)
-    
+    androidTestImplementation("androidx.test:runner:1.4.0")
     testImplementation("junit:junit:4.13.2")
     implementation("androidx.test:core:1.4.0")
 
