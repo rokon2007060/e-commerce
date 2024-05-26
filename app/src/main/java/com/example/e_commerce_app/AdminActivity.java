@@ -142,9 +142,7 @@ public class AdminActivity extends AppCompatActivity {
                 .setContentText("New user: " + user.getFullName())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
-        notificationManager.notify(0, builder.build());
     }
 
     @Override
