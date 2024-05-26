@@ -139,7 +139,6 @@ public class AdminActivity extends AppCompatActivity {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "user_notifications")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle("New User Added")
-                .setContentText("New user: " + user.getFullName())
 
 
     }
