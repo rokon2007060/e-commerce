@@ -140,7 +140,6 @@ public class AdminActivity extends AppCompatActivity {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle("New User Added")
                 .setContentText("New user: " + user.getFullName())
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
 
     }
