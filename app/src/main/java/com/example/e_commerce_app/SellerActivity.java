@@ -37,6 +37,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +77,9 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
         btnAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SellerActivity.this, "All products", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SellerActivity.this, "btn all is clicked", Toast.LENGTH_SHORT).show();
                 loadProducts("All");
+
             }
         });
 
@@ -142,6 +144,8 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
                                     productList.add(product);
                                 }
                                 productAdapter.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(SellerActivity.this, "Failed to load products", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -159,6 +163,8 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
                                     productList.add(product);
                                 }
                                 productAdapter.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(SellerActivity.this, "Failed to load products", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
